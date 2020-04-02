@@ -4,10 +4,10 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class DatastoreApplication {
+public class Datastore {
 
-	public static void main(String[] args) {
-		SpringApplication.run(DatastoreApplication.class, args);
-	}
+    public static void main(String[] args) {
+        SpringApplication.run(Datastore.class, args);
+    }
 
 }

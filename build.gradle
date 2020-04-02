@@ -1,4 +1,6 @@
+
 plugins {
+    id "org.zeroturnaround.gradle.jrebel" version "1.1.10"
 	id 'org.springframework.boot' version '2.2.6.RELEASE'
 	id 'io.spring.dependency-management' version '1.0.9.RELEASE'
 	id 'java'
@@ -13,13 +15,9 @@ repositories {
 }
 
 dependencies {
+    implementation 'com.vladmihalcea:hibernate-types-52:2.3.5'
+    implementation 'org.springframework.boot:spring-boot-starter-web'
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 	runtimeOnly 'org.postgresql:postgresql'
-	testImplementation('org.springframework.boot:spring-boot-starter-test') {
-		exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
-	}
 }
 
-test {
-	useJUnitPlatform()
-}
