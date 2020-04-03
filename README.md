@@ -1,5 +1,6 @@
-![WindsockUI Logo](src/main/resources/windsockui-datastore-dark.png)
-* This project is pre-alpha, in active development
+![windsockui logo](src/main/resources/windsockui-datastore-dark.png)
+* This project is pre-alpha, in active development (do help us get to alpha)
+* There isn't as yet a plug-and-play release (do help us make one)
 
 ## | windsockui Introduction
 `windsockui` is a dynamic content framework for vue.js that hydrates pages with content, for editable components. This allows developers to make their pages (and components) "editable" without needing their customers to login to an admin system. The goal is to allow front-end developers to claim back valuable territory from Wordpress. Developers create bespoke web sites with drop-in CMS functionality and a wide array of drop-in editable tailwind components. 
