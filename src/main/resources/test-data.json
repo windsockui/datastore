@@ -1,0 +1,8 @@
+{
+    "page": {
+        "title": "windsockui - welcome"
+    },
+    "components": [
+        "navbar-wind", "hero-wind", "slanted-break-wind", "paragraph-wind", "cards-wind", "footer-wind"
+    ]
+}

@@ -1,16 +1,15 @@
 package com.windsockui.datastore.controllers;
 
-import com.windsockui.datastore.entities.JsonData;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.windsockui.datastore.repository.JsonDataRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.Resource;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.servlet.http.HttpServletRequest;
-import java.util.Arrays;
-import java.util.Optional;
+import java.io.IOException;
 
 @RestController
 public class RestEndpoint {
@@ -21,7 +20,15 @@ public class RestEndpoint {
         this.jsonDataRepository = jsonDataRepository;
     }
 
-    @GetMapping(value="/data/**")
+    /*@TODO: Replace this with something that returns real data, not dummy data from /src/main/resources/test-data.json */
+    @GetMapping(value="/data/**", produces = MediaType.APPLICATION_JSON_VALUE)
+    public Object fetchData() throws IOException {
+        Resource resource = new ClassPathResource("/test-data.json");
+        ObjectMapper mapper = new ObjectMapper();
+        return mapper.readValue(resource.getInputStream(), Object.class);
+    }
+
+    /* // @TODO: DO NOT DELETE
     public ResponseEntity<JsonData> fetchData(HttpServletRequest request) {
 
         String servletPath = request.getServletPath();
@@ -40,5 +47,6 @@ public class RestEndpoint {
             return new ResponseEntity(HttpStatus.NOT_FOUND);
         }
     }
+     */
 
 }

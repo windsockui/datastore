@@ -26,18 +26,19 @@ public class Config {
             data.setPath("/");
             data.setJson("[\n" +
                     "  {\n" +
-                    "    \"component\":\"wu-heading\",\n" +
+                    "    \"component\":\"heading\",\n" +
                     "    \"data\": {\n" +
                     "      \"value\": \"Welcome to windsockUI\"\n" +
                     "    }\n" +
                     "  },\n" +
                     "  {\n" +
-                    "    \"component\":\"wu-paragraph\",\n" +
+                    "    \"component\":\"paragraph\",\n" +
                     "    \"data\": {\n" +
                     "      \"value\": \"This data was served to the components from a server.\"\n" +
                     "    }\n" +
                     "  }\n" +
                     "]");
+            System.out.println(data);
             jsonDataRepository.save(data);
         }
     }
