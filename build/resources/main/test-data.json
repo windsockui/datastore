@@ -1,8 +1,24 @@
 {
+    "_comment": "We seem to be recreating HTML here. Perhaps we should just use XML format.",
     "page": {
         "title": "windsockui - welcome"
     },
     "components": [
-        "navbar-wind", "hero-wind", "slanted-break-wind", "paragraph-wind", "cards-wind", "footer-wind"
-    ]
+        {"title":"navbar-wind", "id": "header"},
+        {"title":"hero-wind", "id": "slide"},
+        {"title":"slanted-break-wind", "id": "slide-break"},
+        {"title":"paragraph-wind", "id": "intro-text"},
+        {"title":"cards-wind", "id": "features"},
+        {"title":"slanted-break-wind", "id": "footer-break"},
+        {"title":"footer-wind", "id": "footer"}
+    ],
+    "layout": {
+        "slide-break": {
+            "class": "bg-gray-900 h-10 -mt-10 md:h-12 md:-mt-12 lg:h-16 lg:-mt-16"
+        },
+        "footer-break": {
+            "class": "bg-gray-800 h-10 md:h-12 lg:h-16"
+        }
+    },
+    "content": []
 }
