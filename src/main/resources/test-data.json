@@ -6,19 +6,16 @@
     "components": [
         {"title":"navbar-wind", "id": "header"},
         {"title":"hero-wind", "id": "slide"},
-        {"title":"slanted-break-wind", "id": "slide-break"},
-        {"title":"paragraph-wind", "id": "intro-text"},
+        {"title":"slanted-break-wind", "id": "slideBreak"},
+        {"title":"paragraph-wind", "id": "introText"},
         {"title":"cards-wind", "id": "features"},
-        {"title":"slanted-break-wind", "id": "footer-break"},
+        {"title":"slanted-break-wind", "id": "footerBreak"},
         {"title":"footer-wind", "id": "footer"}
     ],
     "layout": {
-        "_comment": "Seems these don't override unfortunately",
-        "slide-break": {
-            "class": "bg-gray-900 h-10 -mt-10 md:h-12 md:-mt-12 lg:h-16 lg:-mt-16"
-        },
-        "footer-break": {
-            "class": "bg-gray-800 h-10 md:h-12 lg:h-16"
+        "_comment": "These classes don't add to the class, they override everything. This is deliberate for now as it's almost impossible to figure out which tailwind classes to override (remove)",
+        "footerBreak": {
+            "class": "separator bg-gray-800 z-20 h-10 md:h-12 lg:h-16 mt-2 lg:mt-10"
         }
     },
     "content": []
