@@ -6,10 +6,8 @@ import com.vladmihalcea.hibernate.type.json.JsonBinaryType;
 import org.hibernate.annotations.Type;
 import org.hibernate.annotations.TypeDef;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.time.LocalDate;
 import java.util.UUID;
 
 @Entity
@@ -24,9 +22,15 @@ public class JsonData {
 
     String path;
 
+    String version;
+
     @Type(type = "jsonb")
     @Column(columnDefinition = "jsonb")
     String json;
+
+    LocalDate lastUpdated;
+
+    LocalDate expires;
 
     /** Getters and Setters **/
 
@@ -54,6 +58,14 @@ public class JsonData {
         this.path = path;
     }
 
+    public String getVersion() {
+        return version;
+    }
+
+    public void setVersion(String version) {
+        this.version = version;
+    }
+
     @JsonRawValue
     public String getJson() {
         return json;
@@ -61,5 +73,24 @@ public class JsonData {
 
     public void setJson(String json) {
         this.json = json;
+    }
+
+    public LocalDate getLastUpdated() {
+        return lastUpdated;
+    }
+
+    public LocalDate getExpires() {
+        return expires;
+    }
+
+    public void setExpires(LocalDate expires) {
+        this.expires = expires;
+    }
+
+    /*** Methods ***/
+
+    @PreUpdate
+    private void setTheDate() {
+        lastUpdated = LocalDate.now();
     }
 }

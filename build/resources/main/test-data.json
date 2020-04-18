@@ -13,10 +13,20 @@
         {"title":"footer-wind", "id": "footer"}
     ],
     "layout": {
-        "_comment": "Seems these don't override unfortunately. We can make it automatically look for anything up to the dash that matches and remove it.",
+        "_comment": "These classes don't add to the class, they override everything. This is deliberate for now as it's almost impossible to figure out which tailwind classes to override (remove)",
         "footerBreak": {
             "class": "separator bg-gray-800 z-20 h-10 md:h-12 lg:h-16 mt-2 lg:mt-10"
         }
     },
-    "content": []
+    "content": {
+        "slide": {
+            "imageUrl": "https://tr3.cbsistatic.com/hub/i/r/2019/08/19/7781cd15-d512-4163-a8f3-c65420e920b9/resize/1200x/8405af53f69396b77bed9b10c212dc7b/istock-1147195672-1.jpg",
+            "title": "WindockUI front-end CMS",
+            "subtitle": "Allowing developers to create ultra-simple CMS interfaces"
+        },
+        "introText": {
+            "heading": "Welcome to WindsockUI",
+            "text" : "WindsockUI is an incredible framework allowing front-end developers to integrate content management into their apps. The components themselves become editable meaning that editing components is 100% intuitive. Be sure to try the framework out. It's highly likely that you totally love it!"
+        }
+    }
 }
