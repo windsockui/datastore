@@ -89,7 +89,7 @@ public class JsonData {
 
     /*** Methods ***/
 
-    @PreUpdate
+    @PreUpdate @PrePersist
     private void setTheDate() {
         lastUpdated = LocalDate.now();
     }

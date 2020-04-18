@@ -26,13 +26,9 @@ public class RestEndpoint {
     @GetMapping(value="/data/**", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<JsonData> fetchData(HttpServletRequest request) {
 
-        String servletPath = request.getServletPath();
-        String[] segments = servletPath.split("/");
+        DomainAndPath domainAndPath = new DomainAndPath(request);
+        Optional<JsonData> first = jsonDataRepository.findByDomainAndPath(domainAndPath.getDomain(), domainAndPath.getPath());
 
-        String domain = segments[2];
-        String path = "/" + String.join("/", Arrays.copyOfRange(segments, 3, segments.length));
-
-        Optional<JsonData> first = jsonDataRepository.findByDomainAndPath(domain, path);
         if (first.isPresent()) {
             return new ResponseEntity<>(first.get(), HttpStatus.OK);
         } else {
@@ -45,15 +41,17 @@ public class RestEndpoint {
 
         DomainAndPath domainAndPath = new DomainAndPath(request);
         Optional<JsonData> first = jsonDataRepository.findByDomainAndPath(domainAndPath.getDomain(), domainAndPath.getPath());
-        System.out.println();
+        JsonData record;
         if (first.isPresent()) {
-            JsonData record = first.get();
-            record.setJson(body);
-            jsonDataRepository.save(record);
-            return new ResponseEntity<>(first.get(), HttpStatus.OK);
+            record = first.get();
         } else {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            record = new JsonData();
         }
+        record.setJson(body);
+        record.setDomain(domainAndPath.getDomain());
+        record.setPath(domainAndPath.getPath());
+        jsonDataRepository.save(record);
+        return new ResponseEntity<>(record, HttpStatus.OK);
     }
 
     private class DomainAndPath {
@@ -77,6 +75,9 @@ public class RestEndpoint {
         }
 
         public String getPath() {
+            if (path == null || path.equals("")) {
+                return "/";
+            }
             return path;
         }
 
