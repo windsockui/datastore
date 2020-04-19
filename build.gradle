@@ -17,6 +17,7 @@ repositories {
 dependencies {
     implementation 'com.vladmihalcea:hibernate-types-52:2.3.5'
     implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 	runtimeOnly 'org.postgresql:postgresql'
 }
