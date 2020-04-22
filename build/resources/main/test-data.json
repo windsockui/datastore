@@ -1,32 +1,35 @@
 {
-    "_comment": "We seem to be recreating HTML here. Perhaps we should just use XML format.",
+    "_@TODO": "We seem to be recreating HTML here. Perhaps we should just use XML format.",
     "page": {
         "title": "windsockui - welcome"
     },
     "components": [
-        {"title":"navbar-wind", "id": "header"},
-        {"title":"hero-wind", "id": "slide"},
-        {"title":"slanted-break-wind", "id": "slideBreak"},
-        {"title":"paragraph-wind", "id": "introText"},
-        {"title":"cards-wind", "id": "features"},
-        {"title":"slanted-break-wind", "id": "footerBreak"},
-        {"title":"footer-wind", "id": "footer"}
+        {"componentName":"navbar-wind", "id": "header"},
+        {"componentName":"hero-wind", "id": "slide"},
+        {"componentName":"slanted-break-wind", "id": "slideBreak"},
+        {"componentName":"paragraph-wind", "id": "introText"},
+        {"componentName":"cards-wind", "id": "features"},
+        {"componentName":"slanted-break-wind", "id": "footerBreak"},
+        {"componentName":"footer-wind", "id": "footer"}
     ],
     "layout": {
-        "_comment": "These classes don't add to the class, they override everything. This is deliberate for now as it's almost impossible to figure out which tailwind classes to override (remove)",
+        "_@TODO": "These classes don't add to the class, they override everything. This is deliberate for now as it's almost impossible to figure out which tailwind classes to override (remove)",
+        "slideBreak": {
+            "class": "relative separator bg-gray-900 z-10 h-16 -mt-16"
+        },
         "footerBreak": {
-            "class": "separator bg-gray-800 z-20 h-10 md:h-12 lg:h-16 mt-2 lg:mt-10"
+            "class": "relative separator bg-gray-800 z-10 h-16 mt-8"
         }
     },
     "content": {
         "slide": {
             "imageUrl": "https://tr3.cbsistatic.com/hub/i/r/2019/08/19/7781cd15-d512-4163-a8f3-c65420e920b9/resize/1200x/8405af53f69396b77bed9b10c212dc7b/istock-1147195672-1.jpg",
-            "title": "WindockUI front-end CMS",
-            "subtitle": "Allowing developers to create ultra-simple CMS interfaces"
+            "title": "WindsockUI inline content editing",
+            "subtitle": "A new simpler way of editing content. Standalone or part of your larger application."
         },
         "introText": {
-            "heading": "Welcome to WindsockUI",
-            "text" : "WindsockUI is an incredible framework allowing front-end developers to integrate content management into their apps. The components themselves become editable meaning that editing components is 100% intuitive. Be sure to try the framework out. It's highly likely that you totally love it!"
+            "heading": "You're welcome to edit this page!",
+            "text" : "This project is in proof-of-concept phase. Please try editing this page by clicking the logo to go to /edit (or append any url with /edit). Create a new page by entering any chosen url into the browser address bar and selecting edit (under the 404 message). Please note that new components are added to the bottom of the page (for now) and may not be obvious."
         }
     }
 }

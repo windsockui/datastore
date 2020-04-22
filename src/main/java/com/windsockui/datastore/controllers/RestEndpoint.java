@@ -1,21 +1,32 @@
 package com.windsockui.datastore.controllers;
 
+import com.windsockui.datastore.config.Config;
 import com.windsockui.datastore.entities.JsonData;
 import com.windsockui.datastore.repository.JsonDataRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.Resource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+
+import org.springframework.util.FileCopyUtils;
+import org.springframework.web.bind.annotation.*;
+
 import javax.servlet.http.HttpServletRequest;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.Reader;
+import java.io.UncheckedIOException;
+import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 import java.util.Optional;
 
 @RestController
 public class RestEndpoint {
+
+    @Autowired
+    Config config;
 
     JsonDataRepository jsonDataRepository;
 
@@ -29,24 +40,30 @@ public class RestEndpoint {
         DomainAndPath domainAndPath = new DomainAndPath(request);
         Optional<JsonData> first = jsonDataRepository.findByDomainAndPath(domainAndPath.getDomain(), domainAndPath.getPath());
 
-        if (first.isPresent()) {
+        /* @TODO: This is disgusting. Only return pages over 462 bytes (with content) else return 404 or if / return stub */
+        /* @TODO: Golly, at least convert to JSON Object and return default if there are no items in the component array */
+
+        if (first.isPresent() && first.get().getJson().length() > 462) {
             return new ResponseEntity<>(first.get(), HttpStatus.OK);
+        } else if (domainAndPath.getPath().equals("/")) {
+            JsonData data = loadStub();
+            data.setPath("/");
+            data.setDomain(domainAndPath.getDomain());
+            return new ResponseEntity<>(data, HttpStatus.OK);
         } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
+
+
+    /* @TODO: Would be nice if AS YOU SAVE it works out if you've uploaded zero content and returns the default example stub */
 
     @PutMapping(value="/data/**", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<JsonData> updateData(HttpServletRequest request, @RequestBody String body) {
 
         DomainAndPath domainAndPath = new DomainAndPath(request);
         Optional<JsonData> first = jsonDataRepository.findByDomainAndPath(domainAndPath.getDomain(), domainAndPath.getPath());
-        JsonData record;
-        if (first.isPresent()) {
-            record = first.get();
-        } else {
-            record = new JsonData();
-        }
+        JsonData record = first.isPresent() ? first.get() : new JsonData();
         record.setJson(body);
         record.setDomain(domainAndPath.getDomain());
         record.setPath(domainAndPath.getPath());
@@ -54,7 +71,23 @@ public class RestEndpoint {
         return new ResponseEntity<>(record, HttpStatus.OK);
     }
 
-    private class DomainAndPath {
+    /*** Private Methods ***/
+
+    private JsonData loadStub() {
+
+        JsonData data = new JsonData();
+
+        Resource resource = new ClassPathResource("/test-data.json");
+        try (Reader reader = new InputStreamReader(resource.getInputStream(), StandardCharsets.UTF_8)) {
+            data.setJson(FileCopyUtils.copyToString(reader));
+            return data;
+        } catch (IOException e) {
+            throw new UncheckedIOException(e);
+        }
+
+    }
+
+    private static class DomainAndPath {
         DomainAndPath(HttpServletRequest request) {
             String servletPath = request.getServletPath();
             String[] segments = servletPath.split("/");
