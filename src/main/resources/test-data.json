@@ -29,7 +29,7 @@
         },
         "introText": {
             "heading": "You're welcome to edit this page!",
-            "text" : "This project is in proof-of-concept phase. Please try editing this page by clicking the logo to go to /edit (or append any url with /edit). Create a new page by entering any chosen url into the browser address bar and selecting edit (under the 404 message). Please note that new components are added to the bottom of the page (for now) and may not be obvious. When you're done, delete everything on the page and click publish. This will refresh the default content."
+            "text" : "This project is in proof-of-concept phase. Please try editing this page by clicking the logo to go to /edit (or append any url with /edit). Create a new page by entering any chosen url into the browser address bar and selecting edit (under the 404 message). Please note that new components are added to the bottom of the page (for now) and may not be obvious. When you're done, delete everything on the page and click publish, then refresh. This will refresh the default content."
         }
     }
 }
