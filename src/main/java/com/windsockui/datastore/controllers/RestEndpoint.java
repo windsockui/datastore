@@ -1,5 +1,7 @@
 package com.windsockui.datastore.controllers;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.windsockui.datastore.beans.CmsData;
 import com.windsockui.datastore.config.Config;
 import com.windsockui.datastore.entities.JsonData;
 import com.windsockui.datastore.repository.JsonDataRepository;
@@ -14,10 +16,7 @@ import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.Reader;
-import java.io.UncheckedIOException;
+import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 import java.util.Optional;
@@ -43,27 +42,35 @@ public class RestEndpoint {
         /* @TODO: This is disgusting. Only return pages over 462 bytes (with content) else return 404 or if / return stub */
         /* @TODO: Golly, at least convert to JSON Object and return default if there are no items in the component array */
 
-        if (first.isPresent() && first.get().getJson().length() > 462) {
+        boolean noContent = false;
+
+        if (first.isPresent()) {
             return new ResponseEntity<>(first.get(), HttpStatus.OK);
-        } else if (domainAndPath.getPath().equals("/")) {
-            JsonData data = loadStub();
-            data.setPath("/");
-            data.setDomain(domainAndPath.getDomain());
-            return new ResponseEntity<>(data, HttpStatus.OK);
         } else {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            if (domainAndPath.getPath().equals("/")) {
+                JsonData data = loadStub();
+                data.setPath("/");
+                data.setDomain(domainAndPath.getDomain());
+                return new ResponseEntity<>(data, HttpStatus.OK);
+            } else {
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            }
         }
     }
 
-
-    /* @TODO: Would be nice if AS YOU SAVE it works out if you've uploaded zero content and returns the default example stub */
 
     @PutMapping(value="/data/**", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<JsonData> updateData(HttpServletRequest request, @RequestBody String body) {
 
         DomainAndPath domainAndPath = new DomainAndPath(request);
         Optional<JsonData> first = jsonDataRepository.findByDomainAndPath(domainAndPath.getDomain(), domainAndPath.getPath());
-        JsonData record = first.isPresent() ? first.get() : new JsonData();
+
+        JsonData record = first.orElseGet(JsonData::new);
+        if (record != null && isNoContent(body)) {
+            jsonDataRepository.delete(record);
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+
         record.setJson(body);
         record.setDomain(domainAndPath.getDomain());
         record.setPath(domainAndPath.getPath());
@@ -85,6 +92,18 @@ public class RestEndpoint {
             throw new UncheckedIOException(e);
         }
 
+    }
+
+    private boolean isNoContent(String rawJson) {
+        try {
+            CmsData data = new ObjectMapper().readValue(rawJson, CmsData.class);
+            if (data.getComponents().size() == 0 || data.getComponents().size() == 1 && data.getComponents().getFirst().getComponentName().equals("windsock-404")) {
+                return true;
+            }
+        } catch (IOException ioe) {
+            System.err.println(ioe);
+        }
+        return false;
     }
 
     private static class DomainAndPath {
