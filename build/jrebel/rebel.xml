@@ -6,9 +6,9 @@
 -->
 <application generated-by="gradle" build-tool-version="6.3" plugin-version="1.1.10" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.zeroturnaround.com" xsi:schemaLocation="http://www.zeroturnaround.com http://update.zeroturnaround.com/jrebel/rebel-2_2.xsd">
   <classpath>
-    <dir name="/Users/sparkyspider/IdeaProjects/windsockui.datastore/build/resources/main">
+    <dir name="/Users/moabi/Development/datastore/build/resources/main">
     </dir>
-    <dir name="/Users/sparkyspider/IdeaProjects/windsockui.datastore/build/classes/java/main">
+    <dir name="/Users/moabi/Development/datastore/build/classes/java/main">
     </dir>
   </classpath>
 
